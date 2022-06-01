@@ -1,0 +1,28 @@
+import React,{useEffect, useState} from 'react';
+
+const useHook = (user) => {
+    const [admin,setAdmin] =useState(false)
+    const [userAdminLoading,setUserAdminLoading] =useState(true)
+    useEffect(() =>{
+        const email =user?.email
+        if(email){
+            fetch(`http://localhost:5000/admin/${email}`, {
+        method:'GET',
+        headers: {
+            'content-type': 'application/json',
+            'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        
+    })
+    .then(res=>res.json())
+    .then(data => {
+        
+        setAdmin(data.admin);
+        setUserAdminLoading(false)
+    })
+}
+        
+    },[user])
+};
+
+export default useHook;
